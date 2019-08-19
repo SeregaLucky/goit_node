@@ -1,11 +1,27 @@
 const { Router } = require("express");
 const router = Router();
+const {
+  getCostsAll,
+  getCostById,
+  postCosts,
+  patchCostById,
+  deleteCostById
+} = require("./costsController");
 
-const getCostsId = require("./controllers/getCostsId");
-const getCostsCategory = require("./controllers/getCostsCategory");
+/*
+ * ROUTER
+ */
+router.get("/", getCostsAll);
 
-router.get("/", getCostsCategory);
+router.get("/:id", getCostById);
 
-router.get("/:id", getCostsId);
+router.post("/", postCosts);
 
+router.patch("/:id", patchCostById);
+
+router.delete("/:id", deleteCostById);
+
+/*
+ * EXPORTS
+ */
 module.exports = router;

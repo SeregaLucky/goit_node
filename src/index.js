@@ -2,40 +2,33 @@ console.log(777);
 
 const express = require("express");
 const corsMiddleware = require("cors");
-const app = express();
-const PORT = process.env.PORT || 3000;
 
 const costsRoutes = require("./costs/costsRoutes");
+const myDb = require("./db");
+const PORT = require("./port");
+
+const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(corsMiddleware());
 
 /*
- * РОУТИНГ
+ * ROUTER
  */
-app.get("/", (req, res) => {
-  res.json("YES, server WORK=)");
-});
+app.get("/", (req, res) => res.json("YES, server WORK=)"));
 
 app.use("/costs", costsRoutes);
 
 /*
- * USE
- */
-app.use((req, res, next) => {
-  const err = new Error("Not found");
-  err.status = 404;
-  next(err);
-});
-
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.json("ERROR");
-});
-
-/*
  * PORT
  */
-app.listen(PORT, () => {
-  console.log(PORT);
-});
+myDb.connect(
+  "mongodb+srv://Serg:strizg@first-cluster-vklkn.gcp.mongodb.net/test?retryWrites=true",
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  (err, database) => {
+    if (err) return console.log("ERROR!!! From db: ", err);
+
+    app.listen(PORT.PORT, () => console.log(PORT.PORT));
+  }
+);
