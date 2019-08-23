@@ -1,5 +1,3 @@
-console.log(777);
-
 const express = require("express");
 const corsMiddleware = require("cors");
 
@@ -29,6 +27,8 @@ myDb.connect(
   (err, database) => {
     if (err) return console.log("ERROR!!! From db: ", err);
 
-    app.listen(PORT.PORT, () => console.log(PORT.PORT));
+    console.log("Conect MongoDB");
   }
 );
+
+app.listen(PORT.PORT, () => console.log(PORT.PORT));
